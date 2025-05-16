@@ -2,21 +2,11 @@ import React, { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import { GiClick } from "react-icons/gi";
 import { Link } from 'react-router-dom';
+import { useMovieContext } from '../../context/context';
 
 const Home = () => {
-
   const [searchTerm, setSearchTerm] = useState('');
-
-  const movies = [
-    { name: 'drive', image: 'proxy-image (1).jpeg' },
-    { name: 'the batman', image: 'proxy-image (2).jpeg' },
-    { name: 'fight club', image: 'proxy-image (3).jpeg' },
-    { name: 'Taxi driver', image: 'proxy-image (4).jpeg' },
-    { name: 'the godfather', image: 'proxy-image (5).jpeg' },
-    { name: 'blade runner 2049', image: 'proxy-image (6).jpeg' },
-    { name: 'joker', image: 'proxy-image.jpeg' },
-  ];
-
+  const { movies, selectMovie } = useMovieContext();
 
   const filteredMovies = movies.filter(movie =>
     movie.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -39,8 +29,12 @@ const Home = () => {
       <section className="mx-auto px-4 py-10">
         <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
           {filteredMovies.map((movie, index) => (
-          <Link to={`/about/${index}`} key={index}>
-                    <div className="relative overflow-hidden rounded-2xl h-[320px] group">
+            <Link 
+              to="/about" 
+              key={index}
+              onClick={() => selectMovie(index)}
+            >
+              <div className="relative overflow-hidden rounded-2xl h-[320px] group">
                 <img
                   src={`../../src/images/${movie.image}`}
                   alt={movie.name}
